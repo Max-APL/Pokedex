@@ -1,0 +1,26 @@
+# Obtener la lista de Pokémon
+GET http://localhost:8000/pokemon?limit=10&offset=0
+Accept: application/json
+
+###
+
+# Obtener un Pokémon específico (por ID o nombre)
+GET http://localhost:8000/pokemon/{name_or_id}
+Accept: application/json
+
+###
+# Ejemplo de uso: Reemplaza {name_or_id} por "pikachu" o un número como "25"
+GET http://localhost:8000/pokemon/pikachu
+Accept: application/json
+
+###
+
+# Probar otro Pokémon por ID
+GET http://localhost:8000/pokemon/1
+Accept: application/json
+
+###
+
+# Pokemon por tipo y paginacion:
+GET http://localhost:8000/pokemon/type/electric?page=2&per_page=5
+Accept: application/json
