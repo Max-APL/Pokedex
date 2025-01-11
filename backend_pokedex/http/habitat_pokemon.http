@@ -1,6 +1,12 @@
 
-### GET request to example server
+### GET todas los Habitats
 GET http://localhost:8000/habitat
+Accept: application/json
+
+###
+
+### GET especies de habitats
+GET http://localhost:8000/habitat/2
 Accept: application/json
 
 ###

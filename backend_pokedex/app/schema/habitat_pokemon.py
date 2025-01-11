@@ -10,3 +10,14 @@ class HabitatPokemon(BaseModel):
 class HabitatPokemonListResponse(BaseModel):
     count: int
     results: List[HabitatPokemon]
+
+
+class Species(BaseModel):
+    name: str
+    url: str
+
+
+class HabitatDetailsResponse(BaseModel):
+    id: int
+    name: str
+    species: List[Species]
