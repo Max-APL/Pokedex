@@ -9,83 +9,7 @@
 
     <v-tabs-window v-model="tab">
       <v-tabs-window-item value="Pokemon">
-        <div class="pokemon-container">
-          <!-- Sidebar: Types -->
-          <div class="sidebar">
-            <v-list dense>
-              <v-list-item
-                v-for="(type, index) in types"
-                :key="index"
-                @click="filterByType(type)"
-                :class="{'type-item-selected': selectedType === type, 'type-item': selectedType !== type}"
-              >
-                {{ type }}
-              </v-list-item>
-            </v-list>
-          </div>
-
-          <!-- Middle Section: Pokemon List -->
-          <div class="pokemon-list">
-            <!-- Search Bar -->
-            <div class="search-bar">
-              <v-text-field
-                placeholder="Search Pokémon..."
-                dense
-                solo
-                hide-details
-                clearable
-                v-model="searchQuery"
-              ></v-text-field>
-              <v-btn
-                icon
-                color="primary"
-                class="search-btn"
-                @click="searchPokemon"
-              >
-                <v-icon>mdi-magnify</v-icon>
-              </v-btn>
-            </div>
-
-            <!-- Pokémon Cards -->
-            <v-container>
-              <v-row>
-                <v-col
-                  v-for="(pokemon, index) in filteredPokemon"
-                  :key="index"
-                  cols="12" md="6" lg="4"
-                >
-                  <v-card
-                    @click="selectPokemon(pokemon)"
-                    class="mx-auto pokemon-card"
-                    max-width="300"
-                    elevation="3"
-                  >
-                    <v-img :src="pokemon.image" height="200" class="pokemon-image"></v-img>
-                    <v-card-title class="text-h6 text-center">
-                      {{ pokemon.name }}
-                    </v-card-title>
-                  </v-card>
-                </v-col>
-              </v-row>
-            </v-container>
-          </div>
-
-          <!-- Right Section: Pokemon Details -->
-          <div class="pokemon-details" v-if="selectedPokemon">
-            <v-card class="details-card">
-              <v-card-title class="text-h5 text-center">
-                {{ selectedPokemon.name }}
-              </v-card-title>
-              <v-img :src="selectedPokemon.image" height="200"></v-img>
-              <v-card-text>
-                <p><strong>Type:</strong> {{ selectedPokemon.type }}</p>
-                <p><strong>Abilities:</strong> {{ selectedPokemon.abilities.join(', ') }}</p>
-                <p><strong>Height:</strong> {{ selectedPokemon.height }}</p>
-                <p><strong>Weight:</strong> {{ selectedPokemon.weight }}</p>
-              </v-card-text>
-            </v-card>
-          </div>
-        </div>
+        <Pokemon></Pokemon>
       </v-tabs-window-item>
 
       <v-tabs-window-item value="Habitat">
@@ -142,7 +66,12 @@
 </template>
 
 <script>
+import Pokemon from "@/components/Pokemon.vue";
+
 export default {
+  components: {
+    Pokemon,
+  },
   data() {
     return {
       tab: null,
