@@ -13,49 +13,7 @@
       </v-tabs-window-item>
 
       <v-tabs-window-item value="Habitat">
-        <div class="habitat-container">
-          <!-- Left Section: Habitats -->
-          <div class="habitat-list">
-            <v-container>
-              <v-row>
-                <v-col
-                  v-for="(habitat, index) in habitats"
-                  :key="index"
-                  cols="12" md="6" lg="4"
-                >
-                  <v-card
-                    @click="selectHabitat(habitat)"
-                    class="mx-auto habitat-card"
-                    max-width="300"
-                    elevation="3"
-                  >
-                    <v-card-title class="text-h6 text-center">
-                      {{ habitat.name }}
-                    </v-card-title>
-                  </v-card>
-                </v-col>
-              </v-row>
-            </v-container>
-          </div>
-
-          <!-- Right Section: Habitat Details -->
-          <div class="habitat-details" v-if="selectedHabitat">
-            <v-card class="details-card">
-              <v-card-title class="text-h5 text-center">
-                {{ selectedHabitat.name }}
-              </v-card-title>
-              <v-card-text>
-                <p><strong>Description:</strong> {{ selectedHabitat.description }}</p>
-                <p><strong>Pokémon Species:</strong></p>
-                <ul>
-                  <li v-for="(species, index) in selectedHabitat.species" :key="index">
-                    {{ species }}
-                  </li>
-                </ul>
-              </v-card-text>
-            </v-card>
-          </div>
-        </div>
+        <Habitat></Habitat>
       </v-tabs-window-item>
     </v-tabs-window>
 
@@ -67,10 +25,12 @@
 
 <script>
 import Pokemon from "@/components/Pokemon.vue";
+import Habitat from "@/components/Habitat.vue";
 
 export default {
   components: {
     Pokemon,
+    Habitat,
   },
   data() {
     return {
@@ -180,138 +140,4 @@ export default {
   border-radius: 10px;
   color: #fff;
 }
-
-.pokemon-container {
-  display: flex;
-  flex-direction: row;
-  height: 80vh;
-  background-color: rgba(0, 0, 0, 0.8);
-  border-radius: 15px;
-  padding: 20px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-}
-
-.sidebar {
-  width: 20%;
-  padding: 10px;
-  overflow-y: auto;
-  max-height: 100%;
-  background-color: rgba(30, 30, 30, 0.9);
-  border-radius: 10px;
-  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
-}
-
-.type-item {
-  margin: 5px 0;
-  padding: 5px;
-  background-color: rgba(50, 50, 50, 0.9);
-  color: #fff;
-  border-radius: 8px;
-  text-align: center;
-  font-size: 0.8rem;
-  cursor: pointer;
-  transition: background-color 0.3s, color 0.3s;
-}
-
-.type-item-selected {
-  background-color: #ffcc00;
-  color: #000;
-}
-
-.type-item:hover {
-  background-color: #ffaa00;
-  color: #000;
-}
-
-.search-bar {
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
-  gap: 10px;
-}
-
-.search-btn {
-  height: 36px;
-  width: 36px;
-}
-
-.pokemon-list {
-  width: 50%;
-  padding: 20px;
-  overflow-y: auto;
-  background-color: rgba(30, 30, 30, 0.9);
-  border-radius: 10px;
-}
-
-.pokemon-card {
-  background-color: rgba(255, 255, 255, 0.95);
-  border-radius: 12px;
-  transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.pokemon-card:hover {
-  transform: scale(1.05);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
-}
-
-.pokemon-details {
-  width: 30%;
-  padding: 20px;
-  overflow-y: auto;
-  background-color: rgba(30, 30, 30, 0.9);
-  border-radius: 10px;
-}
-
-.details-card {
-  background-color: rgba(255, 255, 255, 0.95);
-  border-radius: 12px;
-}
-
-
-
-
-
-.habitat-container {
-  display: flex;
-  flex-direction: row;
-  height: 80vh;
-  background-color: rgba(0, 0, 0, 0.8);
-  border-radius: 15px;
-  padding: 20px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-}
-
-.habitat-list {
-  width: 65%;
-  padding: 20px;
-  overflow-y: auto;
-  background-color: rgba(30, 30, 30, 0.9);
-  border-radius: 10px;
-}
-
-.habitat-card {
-  background-color: rgba(255, 255, 255, 0.95);
-  border-radius: 12px;
-  transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.habitat-card:hover {
-  transform: scale(1.05);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
-}
-
-.habitat-details {
-  width: 35%;
-  padding: 20px;
-  overflow-y: auto;
-  background-color: rgba(30, 30, 30, 0.9);
-  border-radius: 10px;
-}
-
-.details-card {
-  background-color: rgba(255, 255, 255, 0.95);
-  border-radius: 12px;
-}
-
-
 </style>

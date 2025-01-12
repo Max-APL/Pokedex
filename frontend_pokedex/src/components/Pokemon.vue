@@ -210,31 +210,6 @@ export default {
 
 <style>
 
-.app-container {
-  background-image: url("@/assets/fondo.png");
-  background-size: cover;
-  background-attachment: fixed;
-  background-position: center;
-  min-height: 100vh;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.header {
-  text-align: center;
-  font-size: 3rem;
-  color: #ffcc00;
-  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8);
-}
-
-.tabs {
-  background-color: rgba(0, 0, 0, 0.8);
-  border-radius: 10px;
-  color: #fff;
-}
-
 .pokemon-container {
   display: flex;
   flex-direction: row;
@@ -298,7 +273,6 @@ export default {
 }
 
 .pokemon-card {
-  background-color: rgba(255, 255, 255, 0.95);
   border-radius: 12px;
   transition: transform 0.3s, box-shadow 0.3s;
 }
@@ -317,54 +291,9 @@ export default {
 }
 
 .details-card {
-  background-color: rgba(255, 255, 255, 0.95);
   border-radius: 12px;
 }
 
 
-
-
-
-.habitat-container {
-  display: flex;
-  flex-direction: row;
-  height: 80vh;
-  background-color: rgba(0, 0, 0, 0.8);
-  border-radius: 15px;
-  padding: 20px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-}
-
-.habitat-list {
-  width: 65%;
-  padding: 20px;
-  overflow-y: auto;
-  background-color: rgba(30, 30, 30, 0.9);
-  border-radius: 10px;
-}
-
-.habitat-card {
-  background-color: rgba(255, 255, 255, 0.95);
-  border-radius: 12px;
-  transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.habitat-card:hover {
-  transform: scale(1.05);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
-}
-
-.habitat-details {
-  width: 35%;
-  padding: 20px;
-  overflow-y: auto;
-  background-color: rgba(30, 30, 30, 0.9);
-  border-radius: 10px;
-}
-
-.details-card {
-  background-color: rgba(255, 255, 255, 0.95);
-  border-radius: 12px;
-}
 
 </style>
