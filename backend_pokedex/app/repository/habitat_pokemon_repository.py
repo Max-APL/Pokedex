@@ -1,5 +1,5 @@
 import httpx
-from app.schema.habitat_pokemon import HabitatPokemonListResponse, HabitatDetailsResponse
+from app.schema.habitat_pokemon import HabitatPokemonListResponse, HabitatDetailsResponse, Species
 
 
 class HabitatPokemonRepository:
@@ -41,3 +41,20 @@ class HabitatPokemonRepository:
                     for species in data["pokemon_species"]
                 ]
             )
+
+    @staticmethod
+    async def get_habitat_species(name_or_id: str) -> list[Species]:
+        """
+        Obtiene únicamente las especies de un hábitat.
+        """
+        async with httpx.AsyncClient() as client:
+            response = await client.get(f"{HabitatPokemonRepository.BASE_URL}/pokemon-habitat/{name_or_id}/")
+            if response.status_code != 200:
+                raise Exception(f"Error al obtener los detalles del hábitat {name_or_id}.")
+            data = response.json()
+
+            # Extraer solo las especies
+            return [
+                Species(name=species["name"], url=species["url"])
+                for species in data["pokemon_species"]
+            ]

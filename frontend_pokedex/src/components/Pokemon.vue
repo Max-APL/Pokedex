@@ -4,12 +4,13 @@
     <div class="sidebar">
 
       <v-list dense>
-        <h3 style="text-align: center">Tipos de Pokemon</h3>
+        <h3 style="text-align: center">Types of Pokemon</h3>
         <v-list-item
           v-for="(type, index) in types.results"
           :key="index"
-          :class="{'type-item-selected': selectedType === type, 'type-item': selectedType !== type}"
+
           @click="filterByType(type)"
+          :class="{'type-item-selected': selectedType === type.name, 'type-item': selectedType !== type.name}"
         >
           {{ type.name }}
         </v-list-item>
@@ -39,7 +40,7 @@
       </div>
 
       <!-- Pokémon Cards -->
-
+      <h3>Type: {{ selectedType }}</h3>
 
     <v-container>
         <v-row>
@@ -113,13 +114,15 @@ export default {
   },
   async created() {
     await this.loadTypesPokemon();
-    this.selectedType = this.types.results[0].name;
+    this.selectedType = this.types.results[0];
     //this.loadPokemons();
-    //this.filterByType(this.selectedType);
+    this.filterByType(this.selectedType);
   },
   methods: {
     async filterByType(type) {
+
       this.selectedType = type.name;
+      console.log(this.selectedType);
       this.currentPage = 1; // Reiniciar a la primera página al cambiar de tipo
       await this.loadPokemons();
     },
@@ -293,6 +296,8 @@ export default {
 .details-card {
   border-radius: 12px;
 }
+
+
 
 
 

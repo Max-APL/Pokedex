@@ -5,7 +5,7 @@
       <v-container>
         <v-row>
           <v-col
-            v-for="(habitat, index) in habitats"
+            v-for="(habitat, index) in habitats.results"
             :key="index"
             cols="12" md="6" lg="4"
           >
@@ -34,11 +34,27 @@
         <v-card-text>
           <p><strong>Description:</strong> {{ selectedHabitat.description }}</p>
           <p><strong>Pokémon Species:</strong></p>
-          <ul>
-            <li v-for="(species, index) in selectedHabitat.species" :key="index">
-              {{ species }}
-            </li>
-          </ul>
+          <v-container>
+            <!-- Species cards displayed as horizontal cards -->
+            <v-row dense>
+              <v-col
+                v-for="(species, index) in speciesList"
+                :key="index"
+                cols="12"
+              >
+                <v-card class="species-card">
+                  <v-row>
+                    <v-col cols="8">
+                      <v-card-title class="text-h6">
+                        {{ species.name }}
+                      </v-card-title>
+                    </v-col>
+                  </v-row>
+                </v-card>
+              </v-col>
+            </v-row>
+            <div ref="speciesListEnd" @scroll="loadMoreSpecies"></div>
+          </v-container>
         </v-card-text>
       </v-card>
     </div>
@@ -46,52 +62,78 @@
 </template>
 
 <script>
+import {
+  fetchAllHabitats,
+  fetchSpeciesByHabitat,
+} from "@/service/habitat_service";
+
 export default {
   data() {
     return {
-
-      habitats: [
-        {
-          name: "Forest",
-          description: "A lush green forest with abundant trees.",
-          species: ["Bulbasaur", "Caterpie", "Pidgey"],
-        },
-        {
-          name: "Mountain",
-          description: "A rocky mountain with steep cliffs.",
-          species: ["Geodude", "Machop", "Onix"],
-        },
-        {
-          name: "Ocean",
-          description: "A vast ocean filled with water Pokémon.",
-          species: ["Magikarp", "Tentacool", "Lapras"],
-        },
-      ],
-      selectedHabitat: null, // Habitat seleccionado
-
+      habitats: [],
+      selectedHabitat: null,
+      speciesList: [],
+      currentPage: 1,
+      perPage: 10,
+      isLoading: false,
     };
   },
-  created() {
-
+  async created() {
+    await this.loadHabitats();
   },
   methods: {
-    selectHabitat(habitat) {
+    async loadHabitats() {
+      try {
+        this.habitats = await fetchAllHabitats();
+      } catch (error) {
+        console.error("Error al cargar hábitats:", error);
+      }
+    },
+    async selectHabitat(habitat) {
       this.selectedHabitat = habitat;
+      this.speciesList = [];
+      this.currentPage = 1;
+      await this.loadMoreSpecies();
+    },
+    async loadMoreSpecies() {
+      if (this.isLoading || !this.selectedHabitat) return;
+
+      this.isLoading = true;
+      try {
+        const newSpecies = await fetchSpeciesByHabitat(
+          this.selectedHabitat.name,
+          this.currentPage,
+          this.perPage
+        );
+        this.speciesList = [...this.speciesList, ...newSpecies];
+        this.currentPage++;
+      } catch (error) {
+        console.error("Error al cargar más especies:", error);
+      } finally {
+        this.isLoading = false;
+      }
+    },
+  },
+  watch: {
+    async speciesList() {
+      const observer = new IntersectionObserver(async (entries) => {
+        if (entries[0].isIntersecting) {
+          await this.loadMoreSpecies();
+        }
+      });
+      const speciesListEnd = this.$refs.speciesListEnd;
+      if (speciesListEnd) {
+        observer.observe(speciesListEnd);
+      }
     },
   },
 };
 </script>
 
 <style scoped>
-
 .details-card {
   border-radius: 12px;
 }
-
-
-
-
-
 .habitat-container {
   display: flex;
   flex-direction: row;
@@ -101,7 +143,6 @@ export default {
   padding: 20px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
 }
-
 .habitat-list {
   width: 65%;
   padding: 20px;
@@ -109,17 +150,14 @@ export default {
   background-color: rgba(30, 30, 30, 0.9);
   border-radius: 10px;
 }
-
 .habitat-card {
   border-radius: 12px;
   transition: transform 0.3s, box-shadow 0.3s;
 }
-
 .habitat-card:hover {
   transform: scale(1.05);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
 }
-
 .habitat-details {
   width: 35%;
   padding: 20px;
@@ -127,6 +165,16 @@ export default {
   background-color: rgba(30, 30, 30, 0.9);
   border-radius: 10px;
 }
-
-
+.species-card {
+  display: flex;
+  flex-direction: row;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  padding: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease-in-out;
+}
+.species-card:hover {
+  transform: scale(1.02);
+}
 </style>

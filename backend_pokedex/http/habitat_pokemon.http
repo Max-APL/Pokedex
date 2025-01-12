@@ -10,3 +10,7 @@ GET http://localhost:8000/habitat/2
 Accept: application/json
 
 ###
+
+### GET especies de habitats
+GET http://localhost:8000/habitat/forest/species?page=2&per_page=5
+Accept: application/json
