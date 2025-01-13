@@ -15,4 +15,4 @@ Una Pokédex interactiva que permite explorar Pokémon, buscar por nombre, y vis
 - Visualización de hábitats y especies.
 
 ## Proceso de desarrollo 
-La explicacion detallada del proceso de desarrollo se encuentra en este documento: [Explicaciòn]( https://drive.google.com/file/d/1EsRzeIKrKUNWgQzBvITJvVvxjvra3bUS/view?usp=drive_link)  
+La explicacion detallada del proceso de desarrollo se encuentra en este documento: [Explicaciòn](https://drive.google.com/file/d/1EsRzeIKrKUNWgQzBvITJvVvxjvra3bUS/view?usp=sharing)  
