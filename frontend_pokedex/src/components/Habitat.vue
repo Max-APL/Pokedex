@@ -15,7 +15,7 @@
               max-width="300"
               elevation="3"
             >
-              <v-img src="@/assets/fondo.png" height="200" class="pokemon-image ml-2 mr-2"></v-img>
+              <v-img :src="getHabitatImage(habitat.name)" height="200" class="pokemon-image ml-2 mr-2"></v-img>
               <v-card-title class="text-h6 text-center">
                 {{ habitat.name }}
               </v-card-title>
@@ -29,11 +29,10 @@
     <div class="habitat-details" v-if="selectedHabitat">
       <v-card class="details-card">
         <v-card-title class="text-h5 text-center">
-          {{ selectedHabitat.name }}
+          Habitat: {{ selectedHabitat.name }}
         </v-card-title>
         <v-card-text>
-          <p><strong>Description:</strong> {{ selectedHabitat.description }}</p>
-          <p><strong>Pokémon Species:</strong></p>
+          <h3>Pokemon Species:</h3>
           <v-container>
             <!-- Species cards displayed as horizontal cards -->
             <v-row dense>
@@ -62,6 +61,18 @@
 </template>
 
 <script>
+
+import forestImage from '@/assets/forest.png';
+import caveImage from '@/assets/cave.png';
+import grassland from '@/assets/grassland.png';
+import mountainImage from '@/assets/mountain.png';
+import rareImage from '@/assets/rare.png';
+import seaImage from '@/assets/sea.png';
+import urbanImage from '@/assets/urban.png';
+import roughterrainImage from '@/assets/rough-terrain.png';
+import watersedgeImage from '@/assets/waters-edge.png';
+import defaultImage from '@/assets/forest.png';
+
 import {
   fetchAllHabitats,
   fetchSpeciesByHabitat,
@@ -70,6 +81,17 @@ import {
 export default {
   data() {
     return {
+      habitatImages: {
+        forest: forestImage,
+        cave: caveImage,
+        grassland: grassland,
+        mountain: mountainImage,
+        rare: rareImage,
+        sea: seaImage,
+        urban: urbanImage,
+        'waters-edge': watersedgeImage,
+        'rough-terrain': roughterrainImage
+      },
       habitats: [],
       selectedHabitat: null,
       speciesList: [],
@@ -112,6 +134,9 @@ export default {
       } finally {
         this.isLoading = false;
       }
+    },
+    getHabitatImage(habitatName) {
+      return this.habitatImages[habitatName] || defaultImage;
     },
   },
   watch: {

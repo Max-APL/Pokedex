@@ -66,29 +66,90 @@
       <!-- Pagination Controls -->
       <div class="pagination-controls" style="text-align: center">
         <v-btn :disabled="currentPage === 1" @click="loadPreviousPage" color="" size="35">
-          <
+          {{ '<' }}
         </v-btn>
         <span class="ml-2 mr-2">Pág. {{ currentPage }} de {{ totalPages }}</span>
         <v-btn :disabled="currentPage === totalPages" @click="loadNextPage" color="" size="35">
-          >
+          {{ '>' }}
         </v-btn>
       </div>
     </div>
 
     <!-- Right Section: Pokemon Details -->
     <div class="pokemon-details" v-if="selectedPokemon">
-      <v-card class="details-card">
-        <v-card-title class="text-h5 text-center">
+      <v-card class="details-card" elevation="10">
+        <v-card-title class="text-h4 text-center red--text text-uppercase">
           {{ selectedPokemon.name }}
         </v-card-title>
-        <v-img :src="selectedPokemon.sprites.front_default" height="200"></v-img>
+
+        <v-img :src="selectedPokemon.sprites.front_default" height="250" contain class="my-4"></v-img>
+
+        <v-card-subtitle class="text-center mb-4">
+          <v-chip class="ma-1" color="yellow darken-2" text-color="black">
+            ID: {{ selectedPokemon.id }}
+          </v-chip>
+          <v-chip
+            v-for="(type, index) in selectedPokemon.types"
+            :key="index"
+            class="ma-1"
+            color="blue lighten-2"
+            text-color="white"
+          >
+            {{ type.type.name }}
+          </v-chip>
+        </v-card-subtitle>
+
+        <v-divider></v-divider>
+
         <v-card-text>
-          <p><strong>Type:</strong> {{ }}</p>
-          <p><strong>Abilities:</strong> {{  }}</p>
-          <p><strong>Height:</strong> {{  }}</p>
-          <p><strong>Weight:</strong> {{  }}</p>
+          <v-row>
+            <v-col cols="6">
+              <p><strong>Height:</strong> {{ selectedPokemon.height }}</p>
+              <p><strong>Weight:</strong> {{ selectedPokemon.weight }}</p>
+            </v-col>
+            <v-col cols="6">
+              <p><strong>Base Experience:</strong> {{ selectedPokemon.base_experience }}</p>
+            </v-col>
+          </v-row>
+          <p><strong>Abilities:</strong></p>
+          <v-chip-group column>
+            <v-chip
+              v-for="(ability, index) in selectedPokemon.abilities"
+              :key="index"
+              class="ma-1"
+              :color="ability.is_hidden ? 'purple lighten-3' : 'green lighten-3'"
+              text-color="black"
+            >
+              {{ ability.ability.name }}
+            </v-chip>
+          </v-chip-group>
         </v-card-text>
+
+        <v-divider class="my-4"></v-divider>
+
+        <v-card-subtitle class="text-center text-h5">Evolutions</v-card-subtitle>
+        <v-container>
+          <v-row justify="center">
+            <v-col
+              v-for="(evolution, index) in selectedPokemon.evolutions"
+              :key="index"
+              cols="auto"
+              class="text-center"
+            >
+              <v-card
+                class="evolution-card text-center"
+                outlined
+                @click="logEvolution(evolution)"
+                elevation="4"
+              >
+                <v-card-text class="text-h6">{{ evolution }}</v-card-text>
+              </v-card>
+            </v-col>
+          </v-row>
+        </v-container>
       </v-card>
+
+
     </div>
   </div>
 </template>
@@ -119,6 +180,14 @@ export default {
     this.filterByType(this.selectedType);
   },
   methods: {
+
+    logEvolution(evolution) {
+
+      console.log(`Evolucion:: ${evolution}`);
+      this.getDetailsPokemon(evolution).then((response) => {
+        this.selectedPokemon = response;
+      });
+    },
     async filterByType(type) {
 
       this.selectedType = type.name;
@@ -153,12 +222,6 @@ export default {
         await this.loadPokemons();
       }
     },
-    viewPokemonDetails(pokemon) {
-      alert(`Details of ${pokemon.name}: ${pokemon.url}`);
-    },
-
-
-
 
     async getDetailsPokemon(pokemon_name) {
       console.log("NAME:" + pokemon_name);
@@ -184,15 +247,7 @@ export default {
     },
 
 
-
-
-
-    selectHabitat(habitat) {
-      this.selectedHabitat = habitat;
-    },
     selectPokemon(pokemon) {
-
-
       this.getDetailsPokemon(pokemon.name).then((response) => {
         this.selectedPokemon = response;
       });
